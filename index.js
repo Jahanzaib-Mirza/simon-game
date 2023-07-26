@@ -22,16 +22,14 @@ const updateLevel = () => {
     else $("h1").text("level " + level);
 
 }
-const renderSound = (val, i) => {
+const renderSound = (val) => {
     console.log("render sound runned")
+    var audio = new Audio(`sounds/${val}.mp3`);
+    audio.play();
+    $(`#${val}`).css("visibility", "hidden");
     setTimeout(() => {
-        var audio = new Audio(`sounds/${val}.mp3`);
-        audio.play();
-        $(`#${val}`).css("visibility", "hidden");
-        setTimeout(() => {
-            $(`#${val}`).css("visibility", "visible");
-        }, 100)
-    }, 1000 * i)
+        $(`#${val}`).css("visibility", "visible");
+    }, 100)
 }
 
 const play = () => {
@@ -45,9 +43,7 @@ const generateRandom = () => {
     else if (random === 2) output.push("red");
     else if (random === 3) output.push("yellow");
     else if (random === 4) output.push("blue");
-    for (var i = 1; i <= output.length; i++) {
-        renderSound(output[i - 1], i)
-    }
+    renderSound(output[output.length - 1])
 }
 
 const evaluate = (val) => {
@@ -69,7 +65,7 @@ const evaluate = (val) => {
             updateLevel();
             console.log("win")
             inputCount = 0;
-            play();
+            setTimeout(() => play(), 1000);
         }
     }
 }
